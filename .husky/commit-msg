@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# Define color codes
+BRed='\033[1;31m'  # Bold Red
+NC='\033[0m'       # No Color
+
+# Get the current branch name
+branch_name=$(git rev-parse --abbrev-ref HEAD)
+
+# Define the regex pattern
+pattern="^(feature|hotfix|fix|chore|issue)\/pom-[0-9]+"
+
+# Check if the branch name matches the pattern
+if [[ ! "$branch_name" =~ $pattern ]]; then
+    echo -e "${BRed}Branch name does not match the required pattern: ${pattern}${NC}"
+    exit 1
+fi
+
+# Extract the matched part of the branch name
+matched_part=$(echo "$branch_name" | grep -oE "$pattern")
+
+# Read the commit message
+commit_message=$(cat "$1")
+
+# Check if the commit message already starts with the pattern
+if [[ "$commit_message" != "$matched_part:"* ]]; then
+    # Modify the commit message to include the pattern and a colon
+    new_commit_message="${matched_part}: ${commit_message}"
+    # Write the new commit message back to the file
+    echo "$new_commit_message" > "$1"
+fi
+
+exit 0
