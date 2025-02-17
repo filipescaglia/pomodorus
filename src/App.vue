@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 import AppMenu from './components/AppMenu.vue';
 import AppTimer from './components/AppTimer.vue';
 import { useAppStore } from './stores/app';
+import AppSettings from './components/AppSettings.vue';
 
 const appStore = useAppStore();
+
+const showSettings = ref(false);
 </script>
 
 <template>
@@ -14,12 +18,14 @@ const appStore = useAppStore();
     'break-phase': appStore.isBreakPhase,
   }">
     <div class="menu">
-      <AppMenu />
+      <AppMenu @open-settings="showSettings = true" />
     </div>
 
     <main>
       <AppTimer class="app-timer" />
     </main>
+
+    <AppSettings @close="showSettings = false" v-if="showSettings" />
   </div>
 </template>
 
@@ -33,7 +39,11 @@ const appStore = useAppStore();
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+html {
   font-size: 10px;
+  font-family: 'Rajdhani', sans-serif;
 }
 
 .pomodorus {

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watch } from 'vue';
-import AppButton from './AppButton.vue';
+import AppButton from './common/AppButton.vue';
 import PlayIcon from './icons/PlayIcon.vue';
 import TimerIcon from './icons/TimerIcon.vue';
 import StopIcon from './icons/StopIcon.vue';

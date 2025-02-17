@@ -1,11 +1,6 @@
+import type { Settings } from '@/types';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-
-interface Settings {
-  workTime: number;
-  breakTime: number;
-  playSound: boolean;
-}
 
 type CyclePhase = 'working' | 'break';
 
@@ -73,7 +68,7 @@ export const useAppStore = defineStore('app', () => {
 
 function defaultSettings(): Settings {
   return {
-    workTime: 15000,
+    workTime: 1500,
     breakTime: 300,
     playSound: true,
   };
