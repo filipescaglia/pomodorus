@@ -25,7 +25,7 @@ const showPlay = computed(() => controlState.value !== 'playing');
 const showStop = computed(() => controlState.value !== 'stopped');
 const showPause = computed(() => controlState.value === 'playing');
 
-onBeforeMount(initializeData);
+onBeforeMount(onClickStop);
 
 watch(remainingSeconds, (newValue: number) => {
   if (newValue > 0) {
@@ -35,9 +35,7 @@ watch(remainingSeconds, (newValue: number) => {
   switchCyclePhase();
 });
 
-function initializeData() {
-  remainingSeconds.value = appStore.getWorkTime;
-}
+watch([() => appStore.getBreakTime, () => appStore.getWorkTime], onClickStop);
 
 function onClickPlay() {
   if (!appStore.cyclePhase) {
