@@ -13,7 +13,7 @@ const emit = defineEmits<Emits>();
 
 <template>
   <button type="button" @click="emit('click')">
-    <slot v-if="$slots"></slot>
+    <slot v-if="$slots.default"></slot>
     <template v-else>
       {{ props.text }}
     </template>
@@ -28,5 +28,6 @@ button {
   margin: 0;
   cursor: pointer;
   color: inherit;
+  font-size: inherit;
 }
 </style>

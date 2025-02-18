@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, onBeforeMount, ref, watch } from 'vue';
-import AppButton from './AppButton.vue';
+import AppButton from './common/AppButton.vue';
 import PlayIcon from './icons/PlayIcon.vue';
 import TimerIcon from './icons/TimerIcon.vue';
 import StopIcon from './icons/StopIcon.vue';
 import PauseIcon from './icons/PauseIcon.vue';
 import { useAppStore } from '@/stores/app';
+import alarm from '@/assets/alarm.wav';
 
 type ControlState = 'stopped' | 'playing' | 'paused';
 
@@ -25,7 +26,7 @@ const showPlay = computed(() => controlState.value !== 'playing');
 const showStop = computed(() => controlState.value !== 'stopped');
 const showPause = computed(() => controlState.value === 'playing');
 
-onBeforeMount(initializeData);
+onBeforeMount(onClickStop);
 
 watch(remainingSeconds, (newValue: number) => {
   if (newValue > 0) {
@@ -35,9 +36,7 @@ watch(remainingSeconds, (newValue: number) => {
   switchCyclePhase();
 });
 
-function initializeData() {
-  remainingSeconds.value = appStore.getWorkTime;
-}
+watch([() => appStore.getBreakTime, () => appStore.getWorkTime], onClickStop);
 
 function onClickPlay() {
   if (!appStore.cyclePhase) {
@@ -76,6 +75,10 @@ function switchCyclePhase() {
   appStore.toggleCyclePhase();
   remainingSeconds.value = getInitialRemainingSeconds();
   setTimeout(onClickPlay, 500);
+  if (appStore.shouldPlaySound) {
+    const audio = new Audio(alarm);
+    audio.play();
+  }
 }
 </script>
 

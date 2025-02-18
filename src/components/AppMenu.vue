@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { useAppStore } from '@/stores/app';
-import AppButton from './AppButton.vue';
+import AppButton from './common/AppButton.vue';
 import DarkModeIcon from './icons/DarkModeIcon.vue';
 import LightModeIcon from './icons/LightModeIcon.vue';
 import SettingsIcon from './icons/SettingsIcon.vue';
 
+interface Emits {
+  (e: 'open-settings'): void;
+}
+
 const appStore = useAppStore();
 
-function onClickSettings() {
-  console.log('TODO');
-}
+const emit = defineEmits<Emits>();
 </script>
 
 <template>
@@ -17,7 +19,7 @@ function onClickSettings() {
     <span class="brand">Pomodorus</span>
 
     <div class="options">
-      <AppButton @click="onClickSettings">
+      <AppButton @click="emit('open-settings')">
         <SettingsIcon class="option" />
       </AppButton>
 
@@ -43,6 +45,7 @@ nav {
   font-family: 'Jockey One', sans-serif;
   font-size: 68px;
   color: #000;
+  line-height: 0.8;
 }
 
 .dark-mode .brand {
@@ -54,6 +57,7 @@ nav {
   align-items: center;
   justify-content: space-between;
   gap: 4rem;
+  margin-top: 1rem; /* align-center to brand effect */
 }
 
 .options .option {
