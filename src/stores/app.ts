@@ -15,6 +15,7 @@ export const useAppStore = defineStore('app', () => {
 
   const getBreakTime = computed(() => settings.value.breakTime);
   const getWorkTime = computed(() => settings.value.workTime);
+  const shouldPlaySound = computed(() => settings.value.playSound);
 
   function updateSettings(newSettings: Settings) {
     Object.assign(settings.value, newSettings);
@@ -52,6 +53,7 @@ export const useAppStore = defineStore('app', () => {
     settings,
     getBreakTime,
     getWorkTime,
+    shouldPlaySound,
     updateSettings,
     redefineSettings,
 

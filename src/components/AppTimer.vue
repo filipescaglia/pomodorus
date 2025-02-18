@@ -6,6 +6,7 @@ import TimerIcon from './icons/TimerIcon.vue';
 import StopIcon from './icons/StopIcon.vue';
 import PauseIcon from './icons/PauseIcon.vue';
 import { useAppStore } from '@/stores/app';
+import alarm from '@/assets/alarm.wav';
 
 type ControlState = 'stopped' | 'playing' | 'paused';
 
@@ -74,6 +75,10 @@ function switchCyclePhase() {
   appStore.toggleCyclePhase();
   remainingSeconds.value = getInitialRemainingSeconds();
   setTimeout(onClickPlay, 500);
+  if (appStore.shouldPlaySound) {
+    const audio = new Audio(alarm);
+    audio.play();
+  }
 }
 </script>
 
